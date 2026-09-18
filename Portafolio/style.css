@@ -1,0 +1,22 @@
+div {
+    color: black;
+    background-color: beige;
+}
+
+body {
+    margin: 0;
+    display: grid;
+    place-items: center;
+    background: #4302f7;
+    color: #f9fafb;
+    font-family: Arial, sans-serif;
+    padding: 10px 20px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+a {
+    font-size: 60px;
+}
