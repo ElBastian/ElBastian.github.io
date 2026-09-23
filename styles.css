@@ -2,12 +2,39 @@ body {
     margin: 0;
     min-height: 100vh;
     background: linear-gradient(145deg, #00c8ff, #ae00ff);
-    font-family: Arial, sans-serif;
+    font-family: 'Times New Roman', Times, serif, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    padding-top: 80px;
+}
+
+.barra-navegacion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    z-index: 1000;
+}
+
+.barra-navegacion a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 25px;
+    transition: 0.3s;
+}
+
+.barra-navegacion a:hover {
+    color: #6a11cb;
+    transform: scale(1.1);
 }
 
 .marco-portafolio {
