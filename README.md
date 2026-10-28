@@ -1,16 +1,25 @@
-# React + Vite
+# Portafolio de Sebastián Lara
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio personal hecho con React + Vite, publicado en GitHub Pages.
 
-Currently, two official plugins are available:
+## Estructura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```
+index.html            Entrada de Vite (no editar el contenido aquí)
+public/               Archivos que se copian tal cual (favicon)
+src/
+  main.jsx            Arranca React
+  App.jsx             Rutas del sitio
+  components/         Piezas reutilizables (Navbar)
+  pages/              Una página por archivo (Inicio, Acerca, Proyectos, CV)
+  assets/             Imágenes
+  styles/global.css   Estilos del sitio
+.github/workflows/    Publica el sitio en GitHub Pages al hacer push a main
+```
 
-## React Compiler
+## Comandos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm install` — instala dependencias
+- `npm run dev` — servidor local con recarga automática
+- `npm run build` — genera el sitio final en `dist/`
+- `npm run lint` — revisa el código
