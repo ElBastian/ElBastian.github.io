@@ -1509,15 +1509,19 @@ a:hover {
     }
 }
 
-.ver-mas {
+.ver-mas,
+.ver-mas:hover {
+    font-size: inherit;
     color: var(--acento);
     font-weight: bold;
     text-decoration: underline;
+    text-underline-offset: 3px;
     white-space: nowrap;
 }
 
-.ver-mas:hover {
-    color: var(--acento-azul);
+.ver-mas .letra {
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 #luma {
