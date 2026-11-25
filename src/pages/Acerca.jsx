@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Contacto from '../components/Contacto.jsx'
 import Letras from '../components/Letras.jsx'
 import ResumenAcerca from '../components/ResumenAcerca.jsx'
@@ -76,7 +77,11 @@ function Acerca() {
           Uno de los proyectos en los que participo actualmente es el desarrollo, junto con algunos amigos, de una
           aplicación enfocada en la prevención de la depresión. Este proyecto me ha permitido conocer otra parte de la
           tecnología: utilizar lo que aprendemos para intentar generar un impacto positivo en las personas.
-        </Letras></p>
+        </Letras>{' '}
+          <Link className="ver-mas" to="/proyectos" state={{ seccion: 'luma' }}>
+            <Letras>Ver más en proyectos</Letras>
+          </Link>
+        </p>
         <ImagenAcerca src={logoLuma} alt="logo luma" />
       </div>
 

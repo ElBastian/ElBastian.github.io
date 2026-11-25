@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import Contacto from '../components/Contacto.jsx'
 import Letras from '../components/Letras.jsx'
 import logoLuma from '../assets/logo-luma.jpg'
@@ -11,6 +13,7 @@ import capturaTamagotchi from '../assets/proyecto-tamagotchi.jpg'
 
 const proyectos = [
   {
+    id: 'luma',
     titulo: 'LUMA',
     estado: 'En desarrollo',
     descripcion:
@@ -211,6 +214,13 @@ function Etiquetas({ lista }) {
 }
 
 function Proyectos() {
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (!state?.seccion) return
+    document.getElementById(state.seccion)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [state])
+
   return (
     <main className="contenedor-proyectos">
       <h1>
@@ -219,7 +229,7 @@ function Proyectos() {
 
       <div className="lista-proyectos">
         {proyectos.map((proyecto) => (
-          <article className="proyecto" key={proyecto.titulo}>
+          <article className="proyecto" id={proyecto.id} key={proyecto.titulo}>
             <div className="proyecto-info">
               <h2 className="proyecto-titulo">
                 <Letras texto={proyecto.titulo} />

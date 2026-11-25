@@ -327,6 +327,7 @@ body::before {
     padding: 40px;
     border-radius: 20px;
     max-width: 900px;
+    margin-top: 40px;
     box-shadow: 0 10px 30px var(--sombra);
 }
 
@@ -917,13 +918,14 @@ a:hover {
     max-width: 900px;
     box-sizing: border-box;
     margin: 40px auto;
+    text-align: center;
     box-shadow: 0 10px 30px var(--sombra);
 }
 
 .cv-controles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     gap: 15px;
     margin-bottom: 20px;
 }
@@ -932,6 +934,7 @@ a:hover {
 .cv-acciones {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
 }
 
@@ -1281,4 +1284,19 @@ a:hover {
     body {
         padding-top: 150px;
     }
+}
+
+.ver-mas {
+    color: var(--acento);
+    font-weight: bold;
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+.ver-mas:hover {
+    color: var(--acento-azul);
+}
+
+#luma {
+    scroll-margin-top: 110px;
 }
