@@ -2,6 +2,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import AparecerAlBajar from './components/AparecerAlBajar.jsx'
 import Footer from './components/Footer.jsx'
 import IntroMatrix from './components/IntroMatrix.jsx'
+import OlaCursor from './components/OlaCursor.jsx'
 import Navbar from './components/Navbar.jsx'
 import ScrollArriba from './components/ScrollArriba.jsx'
 import Inicio from './pages/Inicio.jsx'
@@ -25,6 +26,7 @@ function App() {
 
       <Footer />
       <AparecerAlBajar />
+      <OlaCursor />
     </HashRouter>
   )
 }
