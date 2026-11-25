@@ -9,7 +9,6 @@ import capturaClima from '../assets/proyecto-clima.jpg'
 import capturaPong from '../assets/proyecto-pong.jpg'
 import capturaTamagotchi from '../assets/proyecto-tamagotchi.jpg'
 
-// Para agregar un enlace, llena "sitio" o "repositorio"; el botón aparece solo
 const proyectos = [
   {
     titulo: 'LUMA',
@@ -106,7 +105,6 @@ const proyectos = [
   },
 ]
 
-// Trazos de los íconos (SVG propio, sin librerías)
 const ICONOS = {
   check: 'M20 6 9 17l-5-5',
   externo: 'M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6',
@@ -137,8 +135,6 @@ function Icono({ nombre, tam = 18 }) {
   )
 }
 
-// Captura de pantalla; si el proyecto tiene sitio, la imagen es el enlace
-// y "Visitar web" aparece al pasar el cursor encima
 function Captura({ proyecto }) {
   const imagen = (
     <img
@@ -168,8 +164,6 @@ function Captura({ proyecto }) {
   )
 }
 
-// Botones de sitio y repositorio; solo aparecen los que tienen enlace.
-// Si hay captura, el sitio ya se abre desde la imagen y no se repite el botón
 function Enlaces({ proyecto }) {
   const mostrarSitio = proyecto.sitio && !proyecto.captura
   if (!mostrarSitio && !proyecto.repositorio) return null

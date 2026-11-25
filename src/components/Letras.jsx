@@ -1,7 +1,6 @@
 const MS_ENTRE_LETRAS = 14
-const MS_CASCADA_MAX = 700 // los textos largos no tardan más que esto en arrancar
+const MS_CASCADA_MAX = 700
 
-// Intl.Segmenter mantiene completos los emojis, que ocupan varios caracteres
 const segmentador = typeof Intl !== 'undefined' && Intl.Segmenter
   ? new Intl.Segmenter('es', { granularity: 'grapheme' })
   : null
@@ -9,7 +8,6 @@ const segmentador = typeof Intl !== 'undefined' && Intl.Segmenter
 const separarLetras = (palabra) =>
   segmentador ? Array.from(segmentador.segment(palabra), (s) => s.segment) : Array.from(palabra)
 
-// Separa el texto en palabras y letras numeradas
 function partirTexto(texto) {
   let indice = 0
   return texto
@@ -18,7 +16,6 @@ function partirTexto(texto) {
     .map((palabra) => separarLetras(palabra).map((letra) => ({ letra, indice: indice++ })))
 }
 
-// Muestra cada letra por separado; los lectores de pantalla reciben el texto completo
 function Letras({ texto, children }) {
   const contenido = String(texto ?? children)
   const palabras = partirTexto(contenido)

@@ -1,4 +1,3 @@
-/* ===== Temas (oscuro / claro) ===== */
 :root,
 :root[data-theme="dark"] {
     --fondo: #0c0a1d;
@@ -35,8 +34,6 @@
     --sombra: rgba(76, 29, 149, 0.15);
     color-scheme: light;
 }
-
-/* ===== Transición de "tinta que se esparce" al cambiar de tema (ver src/utils/tinta.js) ===== */
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation: none;
@@ -49,7 +46,7 @@
 
 body {
     margin: 0;
-    box-sizing: border-box; /* el padding cuenta dentro del alto para que el footer quede en pantalla */
+    box-sizing: border-box;
     min-height: 100vh;
     background-color: var(--fondo);
     color: var(--texto);
@@ -61,10 +58,6 @@ body {
     padding: 20px;
     padding-top: 80px;
 }
-
-/* Resplandores morado y azul en las esquinas.
-   Van en una capa fija aparte (no con background-attachment: fixed)
-   para que el navegador no tenga que repintar el fondo en cada scroll. */
 body::before {
     content: '';
     position: fixed;
@@ -83,14 +76,10 @@ body::before {
     flex-direction: column;
     align-items: center;
 }
-
-/* Espacio arriba igual al del footer: el contenido corto sigue centrado */
 #root::before {
     content: '';
     flex: 1 1 0;
 }
-
-/* ===== Footer ===== */
 .pie-sitio {
     flex: 1 1 0;
     width: 100%;
@@ -110,8 +99,6 @@ body::before {
     font-size: 14px;
     color: var(--texto-suave);
 }
-
-/* ===== Navbar de cristal ===== */
 .barra-navegacion {
     position: fixed;
     top: 0;
@@ -136,10 +123,7 @@ body::before {
     justify-content: center;
     gap: 16px;
 }
-
-/* ===== Botones tipo tecla de máquina de escribir ===== */
 .barra-navegacion .boton-retro {
-    /* Tecla lila (por defecto) */
     --tapa: #c9b8ff;
     --tapa-brillo: #e4dbff;
     --lado: #8b6fd6;
@@ -157,7 +141,6 @@ body::before {
     padding: 11px 22px;
     border: none;
     border-radius: 999px;
-    /* Tapa ligeramente cóncava, como las teclas redondas */
     background: radial-gradient(ellipse at 50% 30%, var(--tapa-brillo) 0%, var(--tapa) 70%);
     box-shadow:
         inset 0 2px 1px rgba(255, 255, 255, 0.8),
@@ -179,8 +162,6 @@ body::before {
 .barra-navegacion .boton-retro:hover {
     filter: brightness(1.04);
 }
-
-/* Tecla presionada: baja y casi desaparece el costado */
 .barra-navegacion .boton-retro:active,
 .barra-navegacion .boton-retro.sumido {
     transform: translateY(4px);
@@ -190,8 +171,6 @@ body::before {
         0 1px 0 var(--lado),
         0 2px 3px rgba(0, 0, 0, 0.25);
 }
-
-/* La página actual queda hundida con el segundo color (morado oscuro, igual que el botón de tema) */
 .nav-enlaces .boton-retro.sumido {
     --tapa: #7c4dff;
     --tapa-brillo: #a283ff;
@@ -204,8 +183,6 @@ body::before {
     outline: 2px dashed var(--acento);
     outline-offset: 5px;
 }
-
-/* ===== Switch de cambio de tema ===== */
 .switch-tema {
     --ancho: 64px;
     --alto: 34px;
@@ -258,8 +235,6 @@ body::before {
 .switch-tema.oscuro .switch-icono.luna {
     color: #c9b8ff;
 }
-
-/* La perilla tapa el ícono del modo activo y deja ver el otro */
 .switch-perilla {
     position: absolute;
     top: var(--hueco);
@@ -322,8 +297,6 @@ body::before {
         margin-top: 0;
     }
 }
-
-/* Tabletas: botones más compactos para no chocar con el switch de tema */
 @media (min-width: 701px) and (max-width: 860px) {
     .nav-enlaces {
         gap: 10px;
@@ -333,8 +306,6 @@ body::before {
         padding: 11px 14px;
     }
 }
-
-/* Celulares: los cuatro botones caben en una fila */
 @media (max-width: 420px) {
     .nav-enlaces {
         gap: 6px;
@@ -396,8 +367,6 @@ h1 {
     color: var(--acento);
     width: fit-content;
 }
-
-/* Título con degradado morado → azul, por letra porque cada una se anima */
 h1 .letra {
     color: color-mix(in srgb, var(--acento-azul) calc(var(--avance) * 100%), var(--acento));
 }
@@ -423,14 +392,10 @@ a {
 a:hover {
     color: var(--contraste);
 }
-
-/* El subrayado normal no alcanza a las letras animadas */
 .pie a {
     text-decoration: none;
     border-bottom: 2px solid currentColor;
 }
-
-/* Todos los marcos de la página Acerca (marco-acerca1 a marco-acerca12) */
 .contenedor-acerca > div {
     background-color: var(--tarjeta);
     border: 1px solid var(--borde);
@@ -443,14 +408,10 @@ a:hover {
     line-height: 1.7;
     text-align: justify;
 }
-
-/* Subtítulo de presentación: alineado a la izquierda también en móvil */
 .contenedor-acerca h2 {
     margin-top: 0;
     text-align: left;
 }
-
-/* Marcos con texto + imagen (todos menos el primero) */
 .contenedor-acerca > div:not(:first-child) {
     display: flex;
     align-items: center;
@@ -461,18 +422,12 @@ a:hover {
     flex: 1;
     margin: 0;
 }
-
-/* Alterna el lado de la imagen: marcos 3, 5, 7, 9, 11 */
 .contenedor-acerca > div:nth-child(odd):not(:first-child) {
     flex-direction: row-reverse;
 }
-
-/* Marcos pares con franja azul para alternar con la morada */
 .contenedor-acerca > div:nth-child(even) {
     border-left-color: var(--acento-azul);
 }
-
-/* Imagen con marco de foto instantánea: borde blanco, más ancho abajo */
 .imagen-acerca {
     flex: 0 0 260px;
     box-sizing: border-box;
@@ -489,8 +444,6 @@ a:hover {
     transform: rotate(-2.5deg);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-
-/* Inclina hacia el otro lado en los marcos que alternan */
 .contenedor-acerca > div:nth-child(odd) .imagen-acerca {
     transform: rotate(2.5deg);
 }
@@ -575,7 +528,6 @@ a:hover {
         text-align: center;
     }
 }
-/* Habilidades y educación en Acerca de mí */
 .resumen-acerca {
     width: 100%;
     max-width: 1004px;
@@ -723,7 +675,7 @@ a:hover {
     height: 112px;
     border-radius: 20px;
     overflow: hidden;
-    background: #ffffff; /* el logo tiene fondo blanco, también en tema oscuro */
+    background: #ffffff;
     border: 1px solid var(--borde);
 }
 
@@ -821,8 +773,6 @@ a:hover {
         height: 76px;
     }
 }
-
-/* Contacto (Inicio, Acerca de mí y Proyectos) */
 .contacto {
     width: 100%;
     max-width: 1004px;
@@ -900,8 +850,6 @@ a:hover {
 .contacto-icono.whatsapp {
     background-color: #25d366;
 }
-
-/* Se invierte con el tema para verse en claro y en oscuro */
 .contacto-icono.github {
     background-color: var(--texto);
     color: var(--fondo);
@@ -960,8 +908,6 @@ a:hover {
         font-size: 0.95rem;
     }
 }
-
-/* Página CV */
 .marco-cv {
     background-color: var(--tarjeta);
     border: 1px solid var(--borde);
@@ -1035,8 +981,6 @@ a:hover {
         height: 70vh;
     }
 }
-
-/* Página Proyectos */
 .contenedor-proyectos {
     width: 100%;
     max-width: 1000px;
@@ -1048,8 +992,6 @@ a:hover {
     margin-right: auto;
     margin-bottom: 30px;
 }
-
-/* Bloques que todavía no suben (ver AparecerAlBajar.jsx) */
 .por-aparecer {
     opacity: 0;
 }
@@ -1059,8 +1001,6 @@ a:hover {
         opacity: 1;
     }
 }
-
-/* Letras animadas una por una */
 .texto-letras {
     position: relative;
 }
@@ -1243,8 +1183,6 @@ a:hover {
     transform: scale(1.04);
     filter: blur(1px);
 }
-
-/* En pantallas táctiles no hay cursor: se muestra una franja fija abajo */
 @media (hover: none) {
     .proyecto-captura-capa {
         inset: auto 0 0 0;
@@ -1334,8 +1272,6 @@ a:hover {
         border-left: none;
         border-bottom: 1px solid var(--borde);
     }
-
-    /* En móvil va arriba del logo para no encimarse */
     .proyecto-estado {
         position: static;
     }

@@ -1,6 +1,5 @@
 import Letras from './Letras.jsx'
 
-// Datos de contacto (los mismos del CV)
 const medios = [
   {
     clase: 'whatsapp',
@@ -36,7 +35,6 @@ const medios = [
   },
 ]
 
-// Íconos propios: globo de chat con teléfono, logotipo de GitHub y sobre
 function IconoContacto({ clase }) {
   if (clase === 'github') {
     return (
@@ -49,7 +47,6 @@ function IconoContacto({ clase }) {
   const trazos = {
     whatsapp: 'M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.3ZM9.3 8.2c-.4 3.3 3 6.8 6.5 6.6l.9-1.6-2.1-1-1 .8c-1.2-.5-2.2-1.5-2.7-2.7l.8-1-1-2.1Z',
     correo: 'M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1ZM3 7l9 6 9-6',
-    // cámara: marco redondeado, lente y punto del flash
     instagram: 'M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5ZM12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6ZM17.2 6.8h.01',
   }
 
@@ -70,7 +67,6 @@ function IconoContacto({ clase }) {
   )
 }
 
-// Sección de contacto al final de Inicio, Acerca de mí y Proyectos
 function Contacto() {
   return (
     <section className="contacto">

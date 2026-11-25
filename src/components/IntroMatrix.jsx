@@ -1,12 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useLocation, useNavigationType } from 'react-router-dom'
 
-// Las constantes SOLO_PRIMERA_VEZ y DURACION están en el script de index.html
-const TAM_FUENTE = 18 // px
-const MS_POR_CUADRO = 45 // velocidad de caída, igual en cualquier monitor
-const MS_SALIDA = 1200 // debe coincidir con la transición de #intro-matrix
+const TAM_FUENTE = 18
+const MS_POR_CUADRO = 45
+const MS_SALIDA = 1200
 
-// Crea una capa nueva para repetir la intro
 function crearCapa() {
   const capa = document.createElement('div')
   capa.id = 'intro-matrix'
@@ -16,7 +14,6 @@ function crearCapa() {
   return capa
 }
 
-// Anima una capa y la elimina al terminar; devuelve la función para detenerla
 function animar(capa, alTerminar) {
   const canvas = capa.querySelector('canvas')
   const ctx = canvas.getContext('2d')
@@ -27,14 +24,11 @@ function animar(capa, alTerminar) {
   let timerSalida = 0
   let timerRespaldo = 0
 
-  // Marca la intro como vista
   try {
     localStorage.setItem('introVista', '1')
   } catch {
-    // Sin localStorage la intro simplemente se repite
   }
 
-  // Ajusta el canvas a la ventana y conserva las columnas que ya caían
   const ajustar = () => {
     const dpr = window.devicePixelRatio || 1
     const ancho = window.innerWidth
@@ -52,7 +46,6 @@ function animar(capa, alTerminar) {
     )
   }
 
-  // Pinta un cuadro: estela semitransparente y un dígito por columna
   const pintar = (tiempo) => {
     raf = requestAnimationFrame(pintar)
     if (tiempo - ultimo < MS_POR_CUADRO) return
@@ -66,7 +59,6 @@ function animar(capa, alTerminar) {
     gotas.forEach((fila, i) => {
       ctx.fillStyle = Math.random() < 0.1 ? '#b6ffb6' : '#00ff41'
       ctx.fillText(String(Math.floor(Math.random() * 10)), i * TAM_FUENTE, fila * TAM_FUENTE)
-      // Al salir de la pantalla, la columna reinicia en un momento aleatorio
       gotas[i] = fila * TAM_FUENTE > alto && Math.random() > 0.95 ? 0 : fila + 1
     })
   }
@@ -79,7 +71,6 @@ function animar(capa, alTerminar) {
     capa.removeEventListener('transitionend', terminar)
   }
 
-  // Detiene todo y quita la capa del DOM
   function terminar(evento) {
     if (evento && (evento.target !== capa || evento.propertyName !== 'clip-path')) return
     detener()
@@ -92,7 +83,6 @@ function animar(capa, alTerminar) {
   capa.addEventListener('transitionend', terminar)
   raf = requestAnimationFrame(pintar)
 
-  // Inicia la salida; el respaldo cubre pestañas en segundo plano sin transitionend
   timerSalida = setTimeout(() => {
     capa.classList.add('saliendo')
     timerRespaldo = setTimeout(() => terminar(), MS_SALIDA + 200)
@@ -101,13 +91,11 @@ function animar(capa, alTerminar) {
   return detener
 }
 
-// Muestra la intro al cargar (si index.html lo decidió) y al usar la flecha de regresar
 function IntroMatrix() {
   const { key } = useLocation()
   const tipoNavegacion = useNavigationType()
   const posicion = useRef(null)
 
-  // Recuerda la posición tras un clic; las flechas las registra alCambiarHistorial
   useEffect(() => {
     if (tipoNavegacion !== 'POP' || posicion.current === null) {
       posicion.current = window.history.state?.idx ?? null
@@ -120,21 +108,18 @@ function IntroMatrix() {
       detener = null
     }
 
-    // Reinicia con una capa nueva, aunque otra intro siga en curso
     const repetir = () => {
       detener?.()
       document.getElementById('intro-matrix')?.remove()
       detener = animar(crearCapa(), limpiar)
     }
 
-    // React Router numera el historial: un número menor significa "regresar"
     const alCambiarHistorial = () => {
       const nueva = window.history.state?.idx ?? null
       if (nueva !== null && posicion.current !== null && nueva < posicion.current) repetir()
       posicion.current = nueva
     }
 
-    // Regreso desde otro sitio cuando el navegador restaura la página de su caché
     const alMostrarPagina = (evento) => {
       if (evento.persisted) repetir()
     }

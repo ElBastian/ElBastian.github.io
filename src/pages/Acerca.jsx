@@ -14,7 +14,6 @@ import fotoCoparmex from '../assets/fotoCOPARMEX.jpeg'
 import liturgia from '../assets/Liturgia.jpeg'
 import viaje from '../assets/Viaje.jpeg'
 
-
 function ImagenAcerca({ src, alt }) {
   const [abierta, setAbierta] = useState(false)
 
@@ -49,7 +48,6 @@ function ImagenAcerca({ src, alt }) {
 function Acerca() {
   return (
     <>
-    {/* Va fuera de contenedor-acerca para no alterar la alternancia de sus marcos */}
     <ResumenAcerca />
     <div className="contenedor-acerca">
       <div className="marco-acerca1">
@@ -110,7 +108,6 @@ function Acerca() {
         </Letras></p>
         <ImagenAcerca src={miDibujo} alt="mi dibujo" />
       </div>
-
 
       <div className="marco-acerca7">
         <p><Letras>

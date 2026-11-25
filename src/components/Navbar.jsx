@@ -5,10 +5,10 @@ import { cambiarTemaConTinta, precalcularTinta } from '../utils/tinta'
 import Letras from './Letras.jsx'
 
 const enlaces = [
-  { ruta: '/', texto: 'Inicio', icono: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z' }, // casa
-  { ruta: '/acerca', texto: 'Acerca de mí', icono: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0' }, // persona
-  { ruta: '/proyectos', texto: 'Proyectos', icono: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z' }, // carpeta
-  { ruta: '/cv', texto: 'CV', icono: 'M4 7h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1ZM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18' }, // maletín
+  { ruta: '/', texto: 'Inicio', icono: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z' },
+  { ruta: '/acerca', texto: 'Acerca de mí', icono: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0' },
+  { ruta: '/proyectos', texto: 'Proyectos', icono: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z' },
+  { ruta: '/cv', texto: 'CV', icono: 'M4 7h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1ZM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18' },
 ]
 
 let audio = null
@@ -40,7 +40,6 @@ function sonarClic() {
     ruido.connect(filtro).connect(volumen).connect(audio.destination)
     ruido.start(ahora)
   } catch {
-    // Sin audio disponible (navegador sin Web Audio o bloqueado): el clic simplemente no suena
   }
 }
 
@@ -52,7 +51,6 @@ function Navbar() {
   const [tema, setTema] = useState(temaInicial)
   const botonTema = useRef(null)
 
-  // Deja calculada la mancha de tinta antes del clic (y otra vez si cambia el tamaño)
   useEffect(() => {
     const preparar = () => precalcularTinta(botonTema.current)
     preparar()
@@ -69,7 +67,6 @@ function Navbar() {
       try {
         localStorage.setItem('tema', nuevo)
       } catch {
-        // Modo privado o almacenamiento bloqueado: el tema cambia, pero no se recuerda
       }
       flushSync(() => setTema(nuevo))
     }

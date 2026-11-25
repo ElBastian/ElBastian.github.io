@@ -2,7 +2,6 @@ import { Fragment } from 'react'
 import Letras from './Letras.jsx'
 import logoUvaq from '../assets/logoUVAQ.png'
 
-// Contenido tomado del CV
 const tecnicas = [
   {
     titulo: 'Lenguajes',
@@ -37,7 +36,6 @@ const blandas = [
   { nombre: 'Organización de eventos', icono: 'calendario' },
 ]
 
-// "periodo" y "puntos" son opcionales: si se llenan, aparecen en la tarjeta
 const educacion = [
   {
     carrera: 'Ingeniería en Sistemas y Seguridad Informática',
@@ -99,7 +97,6 @@ const educacion = [
   },
 ]
 
-// Trazos de los íconos (SVG propio, sin librerías)
 const ICONOS = {
   codigo: 'M16 18l6-6-6-6M8 6l-6 6 6 6',
   datos: 'M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3ZM4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
@@ -135,7 +132,6 @@ function Icono({ nombre, tam = 20 }) {
   )
 }
 
-// Encabezado de sección con su ícono
 function Titulo({ icono, texto }) {
   return (
     <h2 className="resumen-titulo">
@@ -147,7 +143,6 @@ function Titulo({ icono, texto }) {
   )
 }
 
-// Habilidades y educación, arriba de la presentación en Acerca de mí
 function ResumenAcerca() {
   return (
     <div className="resumen-acerca">

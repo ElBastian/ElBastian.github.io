@@ -1,7 +1,6 @@
 import { useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-// Bloques que suben junto con sus letras
 const BLOQUES = [
   '.nav-enlaces',
   '.marco-portafolio',
@@ -29,9 +28,8 @@ const SUBIR_LETRA = [
 const SUAVIZADO = 'cubic-bezier(0.2, 0.7, 0.2, 1)'
 const MS_BLOQUE = 700
 const MS_LETRA = 520
-const PORCION_VISIBLE = 0.15 // parte del bloque en pantalla para que empiece a subir
+const PORCION_VISIBLE = 0.15
 
-// Cada bloque aparece una sola vez; el menú y el footer no se repiten al cambiar de sección
 const yaAparecieron = new WeakSet()
 
 function revelar(bloque) {
@@ -43,24 +41,20 @@ function revelar(bloque) {
       duration: MS_LETRA,
       delay: Number(letra.dataset.retraso),
       easing: SUAVIZADO,
-      fill: 'backwards', // la letra sigue oculta mientras espera su turno
+      fill: 'backwards',
     })
   })
 }
 
-// La intro Matrix ya no tapa la página cuando no existe o cuando empieza a retirarse
 function introTerminando() {
   const capa = document.getElementById('intro-matrix')
   return !capa || capa.classList.contains('saliendo')
 }
 
-// Hace subir bloques y letras al cargar y conforme la persona baja por la página
 function AparecerAlBajar() {
   const { pathname } = useLocation()
 
-  // useLayoutEffect: oculta los bloques antes de pintar para evitar un parpadeo
   useLayoutEffect(() => {
-    // Sin IntersectionObserver ni Web Animations (navegador muy viejo) los bloques quedan visibles
     if (!('IntersectionObserver' in window) || !Element.prototype.animate) return
 
     const bloques = Array.from(document.querySelectorAll(BLOQUES)).filter(
@@ -71,7 +65,6 @@ function AparecerAlBajar() {
     let visor = null
     let espera = null
 
-    // Revela cada bloque cuando entra en pantalla
     const iniciar = () => {
       visor = new IntersectionObserver(
         (entradas) => {
@@ -86,7 +79,6 @@ function AparecerAlBajar() {
       bloques.forEach((bloque) => visor.observe(bloque))
     }
 
-    // Espera un cuadro: al usar la flecha de regresar, la intro se crea justo después
     const cuadro = requestAnimationFrame(() => {
       if (introTerminando()) {
         iniciar()

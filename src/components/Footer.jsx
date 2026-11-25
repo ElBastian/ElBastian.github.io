@@ -1,6 +1,5 @@
 import Letras from './Letras.jsx'
 
-// Pie de página compartido por todas las secciones
 function Footer() {
   return (
     <footer className="pie-sitio">

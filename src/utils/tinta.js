@@ -1,27 +1,16 @@
-/*
- * Transición de tema "tinta que se esparce".
- *
- * La forma de la tinta está inspirada en ink-bleed-theme-changer
- * (https://github.com/codemure-official/ink-bleed-theme-changer, licencia MIT).
- * Aquí no se usa html2canvas ni WebGL: el navegador captura la página real con la
- * View Transitions API y la tinta es un clip-path: path() animado sobre
- * ::view-transition-new(root).
- */
 
-// ===== Ajustes =====
-const DURACION = 2000 // ms
-const CUADROS = 40 // keyframes precalculados
-const PUNTOS = 360 // puntos del contorno principal
-const DIRECCIONES = 120 // direcciones donde se calcula la forma grande
+const DURACION = 2000
+const CUADROS = 40
+const PUNTOS = 360
+const DIRECCIONES = 120
 const FILAMENTOS = 16
 const GOTAS = 30
-const TENDRIL_REACH = 0.42 // largo máximo de los filamentos (fracción de R)
-const FIBRA_PX = 4 // amplitud del borde rasgado
+const TENDRIL_REACH = 0.42
+const FIBRA_PX = 4
 
 const SEGMENTOS_FILAMENTO = 12
 const LADOS_GOTA = 6
 
-// ===== Ruido de gradiente 2D (Perlin) con semilla fija =====
 const perm = new Uint8Array(512)
 ;(() => {
   const p = Array.from({ length: 256 }, (_, i) => i)
@@ -55,10 +44,9 @@ function perlin(x, y) {
   const v = fade(yf)
   const a = g(X, Y, xf, yf) + u * (g(X + 1, Y, xf - 1, yf) - g(X, Y, xf, yf))
   const b = g(X, Y + 1, xf, yf - 1) + u * (g(X + 1, Y + 1, xf - 1, yf - 1) - g(X, Y + 1, xf, yf - 1))
-  return a + v * (b - a) // ~[-0.7, 0.7]
+  return a + v * (b - a)
 }
 
-// fbm con rotación entre octavas (evita artefactos alineados a la rejilla)
 const ROT_C = Math.cos(0.6)
 const ROT_S = Math.sin(0.6)
 function fbm(x, y, octavas) {
@@ -84,7 +72,6 @@ const smooth = (t) => {
   return t * t * (3 - 2 * t)
 }
 
-// ===== Construcción de la forma =====
 function areaConSigno(pts) {
   let a = 0
   for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
@@ -94,7 +81,6 @@ function areaConSigno(pts) {
 }
 
 function subtrazo(pts) {
-  // Mismo sentido de giro en todos los subtrazos: con nonzero se suman y no hacen huecos
   if (areaConSigno(pts) < 0) pts.reverse()
   let d = 'M' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1)
   for (let i = 1; i < pts.length; i++) {
@@ -104,7 +90,6 @@ function subtrazo(pts) {
 }
 
 function generarCuadros(cx, cy, maxDist) {
-  // Variedad por clic
   const ox = Math.random() * 200
   const oy = Math.random() * 200
   const rot = Math.random() * Math.PI * 2
@@ -126,14 +111,12 @@ function generarCuadros(cx, cy, maxDist) {
     giro: Math.random() * Math.PI,
   }))
 
-  // Lóbulos: solo dependen de la dirección (la gota es irregular desde chica)
   const lobulos = new Float32Array(DIRECCIONES)
   for (let i = 0; i < DIRECCIONES; i++) {
     const a = (i / DIRECCIONES) * Math.PI * 2 + rot
     lobulos[i] = fbm(Math.cos(a) * 1.4 + ox, Math.sin(a) * 1.4 + oy, 3)
   }
 
-  // Fibra: ruido fino por punto, también fijo por dirección
   const fibra = new Float32Array(PUNTOS)
   for (let i = 0; i < PUNTOS; i++) {
     const a = (i / PUNTOS) * Math.PI * 2 + rot
@@ -147,12 +130,11 @@ function generarCuadros(cx, cy, maxDist) {
     const lin = k / CUADROS
     const avance = 0.45 * lin + 0.55 * easeInOutQuad(lin)
     const R = avance * maxDist * 0.7
-    const t = lin * 1.6 // "hervor" de la forma
+    const t = lin * 1.6
     const cleanup =
       Math.pow(Math.max(0, (lin - 0.45) / 0.55), 2) * maxDist * 0.4 +
       Math.max(0, (lin - 0.97) / 0.03) * maxDist
 
-    // Forma grande en DIRECCIONES direcciones
     for (let i = 0; i < DIRECCIONES; i++) {
       const a = (i / DIRECCIONES) * Math.PI * 2 + rot
       const qx = Math.cos(a) * 1.8 + ox
@@ -174,7 +156,6 @@ function generarCuadros(cx, cy, maxDist) {
 
     const partes = []
 
-    // Contorno principal
     const fibraAmp = FIBRA_PX * Math.min(1, R / 120)
     const principal = []
     for (let i = 0; i < PUNTOS; i++) {
@@ -184,7 +165,6 @@ function generarCuadros(cx, cy, maxDist) {
     }
     partes.push(subtrazo(principal))
 
-    // Filamentos
     for (const f of filamentos) {
       const gate = smooth((lin - f.inicio) / 0.12) * (1 - smooth((lin - 0.82) / 0.15))
       const n = (fbm(f.semilla, t * 0.8, 2) + 0.7) / 1.4
@@ -203,7 +183,6 @@ function generarCuadros(cx, cy, maxDist) {
           f.curl * L * 0.5 * u * u + Math.sin(u * Math.PI * f.ondas + f.fase + t * 3) * L * 0.09 * u
         const px = cx + dx * (base + u * L) + nx * lateral
         const py = cy + dy * (base + u * L) + ny * lateral
-        // Se afina hasta la punta, con un ensanche suave en la base
         const w = (anchoBase * Math.pow(1 - u, 1.2) + anchoBase * 1.2 * Math.exp(-u * 7)) * (L > 0 ? 1 : 0)
         izq.push([px + nx * w, py + ny * w])
         der.push([px - nx * w, py - ny * w])
@@ -211,7 +190,6 @@ function generarCuadros(cx, cy, maxDist) {
       partes.push(subtrazo(izq.concat(der.reverse())))
     }
 
-    // Gotitas: fijas en el espacio, aparecen delante del frente y son absorbidas
     const ventana = 18 + 0.06 * R
     for (const g of gotas) {
       const hueco = g.dist - radioEn(g.angulo)
@@ -235,7 +213,6 @@ function generarCuadros(cx, cy, maxDist) {
 
 let enCurso = false
 
-// Los cuadros se calculan por adelantado (en tiempo libre) para que el clic no se trabe
 let cache = null
 
 function geometria(botonOrigen) {
@@ -268,8 +245,6 @@ export function precalcularTinta(botonOrigen) {
   })
 }
 
-// Color de fondo que tendrá la página con el tema nuevo. El tema se cambia y se regresa
-// en el mismo instante, así que no llega a pintarse.
 function fondoDelTemaNuevo() {
   const raiz = document.documentElement
   const actual = raiz.getAttribute('data-theme')
@@ -280,9 +255,6 @@ function fondoDelTemaNuevo() {
   return color
 }
 
-// Para navegadores sin View Transitions (Safari < 18, Chrome viejo y los navegadores de
-// algunas marcas de celular): una capa del color del tema nuevo se esparce como tinta,
-// el tema cambia debajo de ella y la capa se desvanece.
 function tintaConCapa(aplicar, botonOrigen, g, cuadros) {
   const capa = document.createElement('div')
   capa.setAttribute('aria-hidden', 'true')
@@ -293,10 +265,8 @@ function tintaConCapa(aplicar, botonOrigen, g, cuadros) {
     pointerEvents: 'none',
     backgroundColor: fondoDelTemaNuevo(),
   })
-  // En <html> y no en <body>: el filter del body haría que la capa se mueva con el scroll
   document.documentElement.appendChild(capa)
 
-  // Si el navegador no entiende clip-path: path(), la tinta es un círculo que crece
   const conTrazo = window.CSS?.supports?.('clip-path', 'path("M0 0L1 0L1 1Z")')
   const forma = conTrazo
     ? cuadros
@@ -331,7 +301,6 @@ function tintaConCapa(aplicar, botonOrigen, g, cuadros) {
 
 export function cambiarTemaConTinta(aplicar, botonOrigen) {
   if (enCurso) return
-  // Navegador sin Web Animations: el tema cambia al instante
   if (!Element.prototype.animate) {
     aplicar()
     return
@@ -361,11 +330,8 @@ export function cambiarTemaConTinta(aplicar, botonOrigen) {
     })
     .catch(() => {})
   transicion.finished.finally(() => {
-    // Una animación con fill 'both' se queda viva al terminar; se cancela para que
-    // no se acumule y no frene las siguientes transiciones
     if (animacion) animacion.cancel()
     enCurso = false
-    // Prepara la siguiente mancha (con otra forma aleatoria)
     precalcularTinta(botonOrigen)
   })
 }
